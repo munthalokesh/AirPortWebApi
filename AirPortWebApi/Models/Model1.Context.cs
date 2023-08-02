@@ -13,10 +13,10 @@ namespace AirPortWebApi.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AirportManagementEntities : DbContext
+    public partial class AirportManagementEntities1 : DbContext
     {
-        public AirportManagementEntities()
-            : base("name=AirportManagementEntities")
+        public AirportManagementEntities1()
+            : base("name=AirportManagementEntities1")
         {
         }
     
@@ -26,8 +26,8 @@ namespace AirPortWebApi.Models
         }
     
         public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Pilot> Pilots { get; set; }
         public virtual DbSet<HangerDetail> HangerDetails { get; set; }
         public virtual DbSet<Manager> Managers { get; set; }
-        public virtual DbSet<Pilot> Pilots { get; set; }
     }
 }

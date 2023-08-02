@@ -4,34 +4,34 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AirportManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AirportManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="AddressId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AddressId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="HouseNo" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="State" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Country" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PinNo" Type="nchar" MaxLength="7" Nullable="false" />
-          <Property Name="AddressId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="int" />
         </EntityType>
         <EntityType Name="HangerDetails">
           <Key>
             <PropertyRef Name="HangerId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HangerId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="HangerLocation" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="HangerCapacity" Type="int" />
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" />
-          <Property Name="HangerId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="int" />
         </EntityType>
         <EntityType Name="Manager">
           <Key>
             <PropertyRef Name="ManagerId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ManagerId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ManagerName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="SSNo" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Dob" Type="date" Nullable="false" />
@@ -39,13 +39,13 @@
           <Property Name="MobileNo" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="AddressId" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ManagerId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="int" />
         </EntityType>
         <EntityType Name="Pilot">
           <Key>
             <PropertyRef Name="PilotId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PilotId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PilotName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LicenceNo" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="SSNo" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -54,7 +54,7 @@
           <Property Name="MobileNo" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="AddressId" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PilotId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="int" />
         </EntityType>
         <Association Name="FK_HangerDetails_Manager">
           <End Role="Manager" Type="Self.Manager" Multiplicity="0..1" />
@@ -110,8 +110,7 @@
             <End Role="Pilot" EntitySet="Pilot" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AirportManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -119,48 +118,21 @@
           <Key>
             <PropertyRef Name="AddressId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddressId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="HouseNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PinNo" Type="String" MaxLength="7" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="AddressId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Managers" Relationship="Self.FK_Manager_Address" FromRole="Address" ToRole="Manager" />
+          <Property Name="Id" Type="Int32" />
           <NavigationProperty Name="Pilots" Relationship="Self.FK_Pilot_Address" FromRole="Address" ToRole="Pilot" />
-        </EntityType>
-        <EntityType Name="HangerDetail">
-          <Key>
-            <PropertyRef Name="HangerId" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="HangerLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="HangerCapacity" Type="Int32" />
-          <Property Name="ManagerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="HangerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Manager" Relationship="Self.FK_HangerDetails_Manager" FromRole="HangerDetails" ToRole="Manager" />
-        </EntityType>
-        <EntityType Name="Manager">
-          <Key>
-            <PropertyRef Name="ManagerId" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ManagerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="SSNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Dob" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="MobileNo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AddressId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ManagerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Address" Relationship="Self.FK_Manager_Address" FromRole="Manager" ToRole="Address" />
-          <NavigationProperty Name="HangerDetails" Relationship="Self.FK_HangerDetails_Manager" FromRole="Manager" ToRole="HangerDetails" />
+          <NavigationProperty Name="Managers" Relationship="AirportManagementModel.FK_Manager_Address" FromRole="Address" ToRole="Manager" />
         </EntityType>
         <EntityType Name="Pilot">
           <Key>
             <PropertyRef Name="PilotId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PilotId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PilotName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LicenceNo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="SSNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -169,21 +141,9 @@
           <Property Name="MobileNo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="AddressId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PilotId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id" Type="Int32" />
           <NavigationProperty Name="Address" Relationship="Self.FK_Pilot_Address" FromRole="Pilot" ToRole="Address" />
         </EntityType>
-        <Association Name="FK_Manager_Address">
-          <End Role="Address" Type="Self.Address" Multiplicity="1" />
-          <End Role="Manager" Type="Self.Manager" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Address">
-              <PropertyRef Name="AddressId" />
-            </Principal>
-            <Dependent Role="Manager">
-              <PropertyRef Name="AddressId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Pilot_Address">
           <End Role="Address" Type="Self.Address" Multiplicity="1" />
           <End Role="Pilot" Type="Self.Pilot" Multiplicity="*" />
@@ -196,85 +156,98 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_HangerDetails_Manager">
-          <End Role="Manager" Type="Self.Manager" Multiplicity="0..1" />
-          <End Role="HangerDetails" Type="Self.HangerDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Manager">
-              <PropertyRef Name="ManagerId" />
-            </Principal>
-            <Dependent Role="HangerDetails">
-              <PropertyRef Name="ManagerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="AirportManagementEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="AirportManagementEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Addresses" EntityType="Self.Address" />
-          <EntitySet Name="HangerDetails" EntityType="Self.HangerDetail" />
-          <EntitySet Name="Managers" EntityType="Self.Manager" />
           <EntitySet Name="Pilots" EntityType="Self.Pilot" />
-          <AssociationSet Name="FK_Manager_Address" Association="Self.FK_Manager_Address">
-            <End Role="Address" EntitySet="Addresses" />
-            <End Role="Manager" EntitySet="Managers" />
-          </AssociationSet>
           <AssociationSet Name="FK_Pilot_Address" Association="Self.FK_Pilot_Address">
             <End Role="Address" EntitySet="Addresses" />
             <End Role="Pilot" EntitySet="Pilots" />
           </AssociationSet>
-          <AssociationSet Name="FK_HangerDetails_Manager" Association="Self.FK_HangerDetails_Manager">
+          <EntitySet Name="HangerDetails" EntityType="AirportManagementModel.HangerDetail" />
+          <EntitySet Name="Managers" EntityType="AirportManagementModel.Manager" />
+          <AssociationSet Name="FK_Manager_Address" Association="AirportManagementModel.FK_Manager_Address">
+            <End Role="Address" EntitySet="Addresses" />
             <End Role="Manager" EntitySet="Managers" />
-            <End Role="HangerDetails" EntitySet="HangerDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HangerDetails_Manager" Association="AirportManagementModel.FK_HangerDetails_Manager">
+            <End Role="Manager" EntitySet="Managers" />
+            <End Role="HangerDetail" EntitySet="HangerDetails" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="HangerDetail">
+          <Key>
+            <PropertyRef Name="HangerId" />
+          </Key>
+          <Property Name="HangerId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HangerLocation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HangerCapacity" Type="Int32" />
+          <Property Name="ManagerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" />
+          <NavigationProperty Name="Manager" Relationship="AirportManagementModel.FK_HangerDetails_Manager" FromRole="HangerDetail" ToRole="Manager" />
+        </EntityType>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="ManagerId" />
+          </Key>
+          <Property Name="ManagerId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SSNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dob" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddressId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" />
+          <NavigationProperty Name="Address" Relationship="AirportManagementModel.FK_Manager_Address" FromRole="Manager" ToRole="Address" />
+          <NavigationProperty Name="HangerDetails" Relationship="AirportManagementModel.FK_HangerDetails_Manager" FromRole="Manager" ToRole="HangerDetail" />
+        </EntityType>
+        <Association Name="FK_Manager_Address">
+          <End Type="AirportManagementModel.Address" Role="Address" Multiplicity="1" />
+          <End Type="AirportManagementModel.Manager" Role="Manager" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Manager">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HangerDetails_Manager">
+          <End Type="AirportManagementModel.Manager" Role="Manager" Multiplicity="0..1" />
+          <End Type="AirportManagementModel.HangerDetail" Role="HangerDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manager">
+              <PropertyRef Name="ManagerId" />
+            </Principal>
+            <Dependent Role="HangerDetail">
+              <PropertyRef Name="ManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AirportManagementModelStoreContainer" CdmEntityContainer="AirportManagementEntities">
+        <EntityContainerMapping StorageEntityContainer="AirportManagementModelStoreContainer" CdmEntityContainer="AirportManagementEntities1">
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="AirportManagementModel.Address">
               <MappingFragment StoreEntitySet="Address">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="HouseNo" ColumnName="HouseNo" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="PinNo" ColumnName="PinNo" />
-                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HangerDetails">
-            <EntityTypeMapping TypeName="AirportManagementModel.HangerDetail">
-              <MappingFragment StoreEntitySet="HangerDetails">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="HangerLocation" ColumnName="HangerLocation" />
-                <ScalarProperty Name="HangerCapacity" ColumnName="HangerCapacity" />
-                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
-                <ScalarProperty Name="HangerId" ColumnName="HangerId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Managers">
-            <EntityTypeMapping TypeName="AirportManagementModel.Manager">
-              <MappingFragment StoreEntitySet="Manager">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
-                <ScalarProperty Name="SSNo" ColumnName="SSNo" />
-                <ScalarProperty Name="Dob" ColumnName="Dob" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
-                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Pilots">
             <EntityTypeMapping TypeName="AirportManagementModel.Pilot">
               <MappingFragment StoreEntitySet="Pilot">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PilotId" ColumnName="PilotId" />
                 <ScalarProperty Name="PilotName" ColumnName="PilotName" />
                 <ScalarProperty Name="LicenceNo" ColumnName="LicenceNo" />
                 <ScalarProperty Name="SSNo" ColumnName="SSNo" />
@@ -283,7 +256,33 @@
                 <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
-                <ScalarProperty Name="PilotId" ColumnName="PilotId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HangerDetails">
+            <EntityTypeMapping TypeName="AirportManagementModel.HangerDetail">
+              <MappingFragment StoreEntitySet="HangerDetails">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="HangerCapacity" ColumnName="HangerCapacity" />
+                <ScalarProperty Name="HangerLocation" ColumnName="HangerLocation" />
+                <ScalarProperty Name="HangerId" ColumnName="HangerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Managers">
+            <EntityTypeMapping TypeName="AirportManagementModel.Manager">
+              <MappingFragment StoreEntitySet="Manager">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+                <ScalarProperty Name="SSNo" ColumnName="SSNo" />
+                <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

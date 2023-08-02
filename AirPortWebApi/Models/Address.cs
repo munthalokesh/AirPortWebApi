@@ -17,21 +17,21 @@ namespace AirPortWebApi.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Address()
         {
-            this.Managers = new HashSet<Manager>();
             this.Pilots = new HashSet<Pilot>();
+            this.Managers = new HashSet<Manager>();
         }
     
-        public int Id { get; set; }
+        public string AddressId { get; set; }
         public string HouseNo { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
         public string PinNo { get; set; }
-        public string AddressId { get; set; }
+        public Nullable<int> Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Manager> Managers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pilot> Pilots { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Manager> Managers { get; set; }
     }
 }

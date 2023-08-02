@@ -14,7 +14,7 @@ namespace AirPortWebApi.Models
     
     public partial class Pilot
     {
-        public int Id { get; set; }
+        public string PilotId { get; set; }
         public string PilotName { get; set; }
         public string LicenceNo { get; set; }
         public string SSNo { get; set; }
@@ -23,7 +23,7 @@ namespace AirPortWebApi.Models
         public string MobileNo { get; set; }
         public string Email { get; set; }
         public string AddressId { get; set; }
-        public string PilotId { get; set; }
+        public Nullable<int> Id { get; set; }
     
         public virtual Address Address { get; set; }
     }

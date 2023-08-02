@@ -20,7 +20,7 @@ namespace AirPortWebApi.Models
             this.HangerDetails = new HashSet<HangerDetail>();
         }
     
-        public int Id { get; set; }
+        public string ManagerId { get; set; }
         public string ManagerName { get; set; }
         public string SSNo { get; set; }
         public System.DateTime Dob { get; set; }
@@ -28,7 +28,7 @@ namespace AirPortWebApi.Models
         public string MobileNo { get; set; }
         public string Email { get; set; }
         public string AddressId { get; set; }
-        public string ManagerId { get; set; }
+        public Nullable<int> Id { get; set; }
     
         public virtual Address Address { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

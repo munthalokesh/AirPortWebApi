@@ -14,11 +14,11 @@ namespace AirPortWebApi.Models
     
     public partial class HangerDetail
     {
-        public int Id { get; set; }
+        public string HangerId { get; set; }
         public string HangerLocation { get; set; }
         public Nullable<int> HangerCapacity { get; set; }
         public string ManagerId { get; set; }
-        public string HangerId { get; set; }
+        public Nullable<int> Id { get; set; }
     
         public virtual Manager Manager { get; set; }
     }
