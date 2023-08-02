@@ -42,11 +42,12 @@ namespace AirPortWebApi.Models.DataLayer
                         address.Country = p.Country;
                         address.State = p.State;
                         address.PinNo = p.PinNo;
-                        address.AddressId = p.City.Substring(0, Math.Min(p.City.Length, 3)).ToUpper() + Address_id;
+                        string AId = p.City.Substring(0, Math.Min(p.City.Length, 3)).ToUpper() + Address_id;
+                        address.AddressId = AId;
                         address.Id = Address_id;
                         pilot.Addresses.Add(address);
                         pilot.SaveChanges();
-                        string AId = pilot.Addresses.FirstOrDefault(x => x.HouseNo == p.HouseNo && x.City == p.City).AddressId;
+                       
                         Pilot Pobj = new Pilot();
                         Pobj.AddressId = AId;
                         Pobj.PilotName = p.PilotName;
