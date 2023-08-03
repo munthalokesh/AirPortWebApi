@@ -12,6 +12,8 @@
         <EntityTypeShape EntityType="AirportManagementModel.Manager" Width="1.5" PointX="3" PointY="5" />
         <AssociationConnector Association="AirportManagementModel.FK_Manager_Address" />
         <AssociationConnector Association="AirportManagementModel.FK_HangerDetails_Manager" />
+        <EntityTypeShape EntityType="AirportManagementModel.Booking" Width="1.5" PointX="7.5" PointY="5.75" />
+        <AssociationConnector Association="AirportManagementModel.FK_Bookings_Bookings" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using System.Xml;
-
+ 
 namespace AirPortWebApi.Models.DataLayer
 {
     public class HangerDetailsDbOperations

@@ -29,5 +29,6 @@ namespace AirPortWebApi.Models
         public virtual DbSet<Pilot> Pilots { get; set; }
         public virtual DbSet<HangerDetail> HangerDetails { get; set; }
         public virtual DbSet<Manager> Managers { get; set; }
+        public virtual DbSet<Booking> Bookings { get; set; }
     }
 }

@@ -18,6 +18,15 @@
           <Property Name="Id" Type="int" />
           <Property Name="AddressLine" Type="nvarchar" MaxLength="150" />
         </EntityType>
+        <EntityType Name="Bookings">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="int" Nullable="false" />
+          <Property Name="HangerId" Type="nvarchar" MaxLength="50" />
+          <Property Name="FromDate" Type="date" Nullable="false" />
+          <Property Name="ToDate" Type="date" />
+        </EntityType>
         <EntityType Name="HangerDetails">
           <Key>
             <PropertyRef Name="HangerId" />
@@ -57,6 +66,18 @@
           <Property Name="AddressId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Id" Type="int" />
         </EntityType>
+        <Association Name="FK_Bookings_Bookings">
+          <End Role="HangerDetails" Type="Self.HangerDetails" Multiplicity="0..1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HangerDetails">
+              <PropertyRef Name="HangerId" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="HangerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_HangerDetails_Manager">
           <End Role="Manager" Type="Self.Manager" Multiplicity="0..1" />
           <End Role="HangerDetails" Type="Self.HangerDetails" Multiplicity="*" />
@@ -95,9 +116,14 @@
         </Association>
         <EntityContainer Name="AirportManagementModelStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HangerDetails" EntityType="Self.HangerDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Manager" EntityType="Self.Manager" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pilot" EntityType="Self.Pilot" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Bookings_Bookings" Association="Self.FK_Bookings_Bookings">
+            <End Role="HangerDetails" EntitySet="HangerDetails" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
           <AssociationSet Name="FK_HangerDetails_Manager" Association="Self.FK_HangerDetails_Manager">
             <End Role="Manager" EntitySet="Manager" />
             <End Role="HangerDetails" EntitySet="HangerDetails" />
@@ -175,6 +201,11 @@
             <End Role="Manager" EntitySet="Managers" />
             <End Role="HangerDetail" EntitySet="HangerDetails" />
           </AssociationSet>
+          <EntitySet Name="Bookings" EntityType="AirportManagementModel.Booking" />
+          <AssociationSet Name="FK_Bookings_Bookings" Association="AirportManagementModel.FK_Bookings_Bookings">
+            <End Role="HangerDetail" EntitySet="HangerDetails" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="HangerDetail">
           <Key>
@@ -186,6 +217,7 @@
           <Property Name="ManagerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Id" Type="Int32" />
           <NavigationProperty Name="Manager" Relationship="AirportManagementModel.FK_HangerDetails_Manager" FromRole="HangerDetail" ToRole="Manager" />
+          <NavigationProperty Name="Bookings" Relationship="AirportManagementModel.FK_Bookings_Bookings" FromRole="HangerDetail" ToRole="Booking" />
         </EntityType>
         <EntityType Name="Manager">
           <Key>
@@ -224,6 +256,28 @@
             </Principal>
             <Dependent Role="HangerDetail">
               <PropertyRef Name="ManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="Int32" Nullable="false" />
+          <Property Name="HangerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ToDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="HangerDetail" Relationship="AirportManagementModel.FK_Bookings_Bookings" FromRole="Booking" ToRole="HangerDetail" />
+        </EntityType>
+        <Association Name="FK_Bookings_Bookings">
+          <End Type="AirportManagementModel.HangerDetail" Role="HangerDetail" Multiplicity="0..1" />
+          <End Type="AirportManagementModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HangerDetail">
+              <PropertyRef Name="HangerId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="HangerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -286,6 +340,16 @@
                 <ScalarProperty Name="SSNo" ColumnName="SSNo" />
                 <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
                 <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="AirportManagementModel.Booking">
+              <MappingFragment StoreEntitySet="Bookings">
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="HangerId" ColumnName="HangerId" />
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

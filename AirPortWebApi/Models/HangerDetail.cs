@@ -14,6 +14,12 @@ namespace AirPortWebApi.Models
     
     public partial class HangerDetail
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public HangerDetail()
+        {
+            this.Bookings = new HashSet<Booking>();
+        }
+    
         public string HangerId { get; set; }
         public string HangerLocation { get; set; }
         public Nullable<int> HangerCapacity { get; set; }
@@ -21,5 +27,7 @@ namespace AirPortWebApi.Models
         public Nullable<int> Id { get; set; }
     
         public virtual Manager Manager { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }
