@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AirPortWebApi.Models.DataLayer;
+using AirPortWebApi.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -22,9 +24,22 @@ namespace AirPortWebApi.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody] string value)
+        [HttpPost]
+        public IHttpActionResult AddHanger([FromBody] Hanger h)
         {
+            HangerDetailsDbOperations Hd = new HangerDetailsDbOperations();
+            string s = Hd.AddHanger(h);
+            List<string> list = s.Split(',').ToList();
+            if (list[0].Equals("0"))
+            {
+                return Ok(list[1]);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, list[1]);
+            }
         }
+
 
         // PUT api/<controller>/5
         public void Put(int id, [FromBody] string value)

@@ -14,6 +14,7 @@ namespace AirPortWebApi.Models.Entities
         public string Gender { get; set; }
         public string MobileNo { get; set; }
         public string EmailAddress { get; set; }
+        public string AddressLine { get; set; }
         public string HouseNo { get; set; }
         public string City { get; set; }
         public string State { get; set; }

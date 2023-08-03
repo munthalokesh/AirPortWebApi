@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -31,58 +32,65 @@ namespace AirPortWebApi.Models.DataLayer
             {
                 using (var pilot = new AirportManagementEntities1())
                 {
-
-                    var AddressId = pilot.Addresses.FirstOrDefault(x => x.HouseNo == p.HouseNo && x.City == p.City);
-                    if (AddressId == null)
+                    var SsExists = pilot.Managers.FirstOrDefault(x => x.SSNo == p.SocialSecurityNo);
+                    if (SsExists != null)
                     {
-                        int Address_id = AddressDbOPerations.GetLastAddressId();
-                        Address address = new Address();
-                        address.HouseNo = p.HouseNo;
-                        address.City = p.City;
-                        address.Country = p.Country;
-                        address.State = p.State;
-                        address.PinNo = p.PinNo;
-                        string AId = p.City.Substring(0, Math.Min(p.City.Length, 3)).ToUpper() + Address_id;
-                        address.AddressId = AId;
-                        address.Id = Address_id;
-                        pilot.Addresses.Add(address);
-                        pilot.SaveChanges();
-                       
-                        Pilot Pobj = new Pilot();
-                        Pobj.AddressId = AId;
-                        Pobj.PilotName = p.PilotName;
-                        Pobj.LicenceNo = p.LicenseNo;
-                        Pobj.SSNo = p.SocialSecurityNo;
-                        Pobj.Dob = p.DateOfBirth;
-                        Pobj.Gender = p.Gender;
-                        Pobj.Email = p.EmailAddress;
-                        Pobj.MobileNo = p.MobileNo;
-                        int PilotAddress_id = GetLastPilotId();
-                        Pobj.PilotId = p.SocialSecurityNo.Substring(p.SocialSecurityNo.Length - 4).ToUpper() + PilotAddress_id;
-                        Pobj.Id = PilotAddress_id;
-                        pilot.Pilots.Add(Pobj);
-                        pilot.SaveChanges();
-                        return $"0,pilot generated with Id: {Pobj.PilotId}";
+                        return "1,Social Security Exists";
                     }
                     else
                     {
+                        var AddressId = pilot.Addresses.FirstOrDefault(x => x.HouseNo == p.HouseNo  && x.City.Equals(p.City, StringComparison.OrdinalIgnoreCase));
+                        if (AddressId == null)
+                        {
+                            int Address_id = AddressDbOPerations.GetLastAddressId();
+                            Address address = new Address();
+                            address.HouseNo = p.HouseNo;
+                            address.City = p.City;
+                            address.AddressLine = p.AddressLine;
+                            address.Country = p.Country;
+                            address.State = p.State;
+                            address.PinNo = p.PinNo;
+                            string AId = p.City.Substring(0, Math.Min(p.City.Length, 3)).ToUpper() + Address_id;
+                            address.AddressId = AId;
+                            address.Id = Address_id;
+                            pilot.Addresses.Add(address);
+                            //pilot.SaveChanges();
 
-                        Pilot Pobj = new Pilot();
-                        Pobj.PilotId = "p001";
-                        Pobj.AddressId = AddressId.AddressId;
-                        Pobj.PilotName = p.PilotName;
-                        Pobj.LicenceNo = p.LicenseNo;
-                        Pobj.SSNo = p.SocialSecurityNo;//still need to check ssno is not there in manager too
-                        Pobj.Dob = p.DateOfBirth;
-                        Pobj.Gender = p.Gender;
-                        Pobj.Email = p.EmailAddress;
-                        Pobj.MobileNo = p.MobileNo;
-                        int PilotAddress_id = GetLastPilotId();
-                        Pobj.PilotId = p.SocialSecurityNo.Substring(p.SocialSecurityNo.Length - 4).ToUpper() + PilotAddress_id;
-                        Pobj.Id = PilotAddress_id;
-                        pilot.Pilots.Add(Pobj);
-                        pilot.SaveChanges();
-                        return $"0,pilot generated with Id: {Pobj.PilotId}";
+                            Pilot Pobj = new Pilot();
+                            Pobj.AddressId = AId;
+                            Pobj.PilotName = p.PilotName;
+                            Pobj.LicenceNo = p.LicenseNo;
+                            Pobj.SSNo = p.SocialSecurityNo;
+                            Pobj.Dob = p.DateOfBirth;
+                            Pobj.Gender = p.Gender;
+                            Pobj.Email = p.EmailAddress;
+                            Pobj.MobileNo = p.MobileNo;
+                            int PilotAddress_id = GetLastPilotId();
+                            Pobj.PilotId = p.SocialSecurityNo.Substring(p.SocialSecurityNo.Length - 4).ToUpper() + PilotAddress_id;
+                            Pobj.Id = PilotAddress_id;
+                            pilot.Pilots.Add(Pobj);
+                            pilot.SaveChanges();
+                            return $"0,pilot generated with Id: {Pobj.PilotId}";
+                        }
+                        else
+                        {
+
+                            Pilot Pobj = new Pilot();
+                            Pobj.AddressId = AddressId.AddressId;
+                            Pobj.PilotName = p.PilotName;
+                            Pobj.LicenceNo = p.LicenseNo;
+                            Pobj.SSNo = p.SocialSecurityNo;//still need to check ssno is not there in manager too
+                            Pobj.Dob = p.DateOfBirth;
+                            Pobj.Gender = p.Gender;
+                            Pobj.Email = p.EmailAddress;
+                            Pobj.MobileNo = p.MobileNo;
+                            int PilotAddress_id = GetLastPilotId();
+                            Pobj.PilotId = p.SocialSecurityNo.Substring(p.SocialSecurityNo.Length - 4).ToUpper() + PilotAddress_id;
+                            Pobj.Id = PilotAddress_id;
+                            pilot.Pilots.Add(Pobj);
+                            pilot.SaveChanges();
+                            return $"0,pilot generated with Id: {Pobj.PilotId}";
+                        }
                     }
 
                 }
@@ -115,9 +123,27 @@ namespace AirPortWebApi.Models.DataLayer
                     return "1,error occured";
                 }
             }
-            catch(AggregateException a)
+            catch(DbEntityValidationException d)
+            {
+                string s = "";
+                foreach (var eve in d.EntityValidationErrors)
+                {
+                    
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                       s=("1,Error on- Property: \"{0}\"",
+                            ve.PropertyName)+" "+s;
+                    }
+                }
+                return s;
+            }
+            catch (AggregateException a)
             {
                 return "1,try again later";
+            }
+            catch (Exception E)
+            {
+                return "1,Unknown error occured please try again later";
             }
         }
     }

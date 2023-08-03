@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
@@ -45,23 +47,23 @@ namespace AirPortWebApi.Models.DataLayer
         {
             try
             {
-                using(var Hd=new AirportManagementEntities1())
+                using (var Hd = new AirportManagementEntities1())
                 {
-                    var SsExists = Hd.Managers.FirstOrDefault(x => x.SSNo == H.SocialSecuirtyNo);
+                    var SsExists = Hd.Pilots.FirstOrDefault(x => x.SSNo == H.SocialSecuirtyNo);
                     if (SsExists != null)
                     {
                         return "1,Social Security Exists";
                     }
                     else
                     {
-                        var ManagerDetails = Hd.Managers.FirstOrDefault(x => x.Email == H.Email);
+                        var ManagerDetails = Hd.Managers.FirstOrDefault(x => x.Email == H.Email && x.MobileNo == H.MobileNo && x.SSNo == H.SocialSecuirtyNo);
                         int HUniqueId = GetLastHangerId();
                         int MUniqueId = GetLastManagerId();
                         string Hid = H.HangerLocation.Substring(0, Math.Min(H.HangerLocation.Length, 3)).ToUpper() + GetLastHangerId();
                         HangerDetail h = new HangerDetail();
                         if (ManagerDetails == null)
                         {
-                            var AddressId = Hd.Addresses.FirstOrDefault(x => x.HouseNo == H.HouseNo && x.City == H.City);
+                            var AddressId = Hd.Addresses.FirstOrDefault(x => x.HouseNo == H.HouseNo && x.City.Equals(H.City, StringComparison.OrdinalIgnoreCase));
                             if (AddressId == null)
                             {
                                 int Address_id = AddressDbOPerations.GetLastAddressId();
@@ -70,24 +72,25 @@ namespace AirPortWebApi.Models.DataLayer
                                 address.City = H.City;
                                 address.Country = H.Country;
                                 address.State = H.State;
+                                address.AddressLine = H.AddressLine;
                                 address.PinNo = H.PinNo;
                                 string AId = H.City.Substring(0, Math.Min(H.City.Length, 3)).ToUpper() + Address_id;
                                 address.AddressId = AId;
                                 Hd.Addresses.Add(address);
-                                Hd.SaveChanges();
+                                //Hd.SaveChanges();
                                 string Mid = H.SocialSecuirtyNo.Substring(H.SocialSecuirtyNo.Length - 4).ToUpper() + MUniqueId;
                                 Manager m = new Manager();
                                 m.ManagerId = Mid;
-                                m.ManagerName= H.ManagerName;
+                                m.ManagerName = H.ManagerName;
                                 m.SSNo = H.SocialSecuirtyNo;
-                                m.Dob=H.Dob;
-                                m.Gender= H.Gender;
+                                m.Dob = H.Dob;
+                                m.Gender = H.Gender;
                                 m.Email = H.Email;
                                 m.MobileNo = H.MobileNo;
                                 m.AddressId = AId;
                                 m.Id = MUniqueId;
                                 Hd.Managers.Add(m);
-                                Hd.SaveChanges();
+                                //Hd.SaveChanges();
                                 h.ManagerId = Mid;
                                 h.HangerId = Hid;
                                 h.HangerLocation = H.HangerLocation;
@@ -96,7 +99,7 @@ namespace AirPortWebApi.Models.DataLayer
                                 Hd.HangerDetails.Add(h);
                                 Hd.SaveChanges();
                                 return $"0,hanger added {Hid}";
-                                
+
                             }
                             else
                             {
@@ -112,7 +115,7 @@ namespace AirPortWebApi.Models.DataLayer
                                 m.AddressId = AddressId.AddressId;
                                 m.Id = MUniqueId;
                                 Hd.Managers.Add(m);
-                                Hd.SaveChanges();
+                                //Hd.SaveChanges();
                                 h.ManagerId = Mid;
                                 h.HangerId = Hid;
                                 h.HangerLocation = H.HangerLocation;
@@ -138,9 +141,64 @@ namespace AirPortWebApi.Models.DataLayer
                     }
                 }
             }
-            catch(DbUpdateException d)
+            catch (DbUpdateException d)
             {
-                return "1,exception";
+                SqlException s = d.GetBaseException() as SqlException;
+                if (s.Message.Contains("PK_HangerDetails"))
+                {
+                    return "1,invalid HangerId";
+
+                }
+                else if (s.Message.Contains("FK_HangerDetails_Manager"))
+                {
+                    return "1,check manager details";
+                }
+                else if (s.Message.Contains("PK_Manager"))
+                {
+                    return "1,Manager Id";
+                }
+                else if (s.Message.Contains("FK_Manager_Address"))
+                {
+                    return "1,Check address Details";
+                }
+                else if (s.Message.Contains("UQ_MEmail"))
+                {
+                    return "1,Email Already Exists";
+                }
+                else if (s.Message.Contains("UQ_MMobileNo"))
+                {
+                    return "1,Mobile Number Already Exists";
+                }
+                else if (s.Message.Contains("UQ_MSSNo"))
+                {
+                    return "1,Social Security number Already Exists";
+                }
+                else
+                {
+                    return "1,Unable to add Hanger";
+                }
+            }
+            catch (DbEntityValidationException d)
+            {
+                string s = "";
+                foreach (var eve in d.EntityValidationErrors)
+                {
+
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        s = ("1,Error on- Property: \"{0}\"",
+                             ve.PropertyName) + " " + s;
+                    }
+                }
+                return s;
+            }
+            catch (AggregateException a)
+            {
+                return "1,try again later";
+            }
+            catch (Exception E)
+            {
+                return "1,Unknown error occured please try again later";
             }
         }
     }

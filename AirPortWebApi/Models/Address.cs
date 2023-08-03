@@ -28,6 +28,7 @@ namespace AirPortWebApi.Models
         public string Country { get; set; }
         public string PinNo { get; set; }
         public Nullable<int> Id { get; set; }
+        public string AddressLine { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pilot> Pilots { get; set; }

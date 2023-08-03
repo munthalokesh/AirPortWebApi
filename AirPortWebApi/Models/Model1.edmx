@@ -16,6 +16,7 @@
           <Property Name="Country" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PinNo" Type="nchar" MaxLength="7" Nullable="false" />
           <Property Name="Id" Type="int" />
+          <Property Name="AddressLine" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="HangerDetails">
           <Key>
@@ -127,6 +128,7 @@
           <Property Name="Id" Type="Int32" />
           <NavigationProperty Name="Pilots" Relationship="Self.FK_Pilot_Address" FromRole="Address" ToRole="Pilot" />
           <NavigationProperty Name="Managers" Relationship="AirportManagementModel.FK_Manager_Address" FromRole="Address" ToRole="Manager" />
+          <Property Name="AddressLine" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Pilot">
           <Key>
@@ -234,6 +236,7 @@
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="AirportManagementModel.Address">
               <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="AddressLine" ColumnName="AddressLine" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="HouseNo" ColumnName="HouseNo" />
                 <ScalarProperty Name="City" ColumnName="City" />
