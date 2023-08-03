@@ -6,9 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace AirPortWebApi.Controllers
 {
+    [EnableCors("*","*","*")]
     public class HangerDetailsController : ApiController
     {
         // GET api/<controller>
