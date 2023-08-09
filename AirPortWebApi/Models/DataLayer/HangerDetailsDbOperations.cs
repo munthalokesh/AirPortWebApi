@@ -63,7 +63,7 @@ namespace AirPortWebApi.Models.DataLayer
                         HangerDetail h = new HangerDetail();
                         if (ManagerDetails == null)
                         {
-                            var AddressId = Hd.Addresses.FirstOrDefault(x => x.HouseNo == H.HouseNo && x.City.Equals(H.City, StringComparison.OrdinalIgnoreCase));
+                            var AddressId = Hd.Addresses.FirstOrDefault(x => x.HouseNo == H.HouseNo && x.City == H.City);
                             if (AddressId == null)
                             {
                                 int Address_id = AddressDbOPerations.GetLastAddressId();
@@ -74,10 +74,11 @@ namespace AirPortWebApi.Models.DataLayer
                                 address.State = H.State;
                                 address.AddressLine = H.AddressLine;
                                 address.PinNo = H.PinNo;
+                                address.Id = Address_id;
                                 string AId = H.City.Substring(0, Math.Min(H.City.Length, 3)).ToUpper() + Address_id;
                                 address.AddressId = AId;
                                 Hd.Addresses.Add(address);
-                                //Hd.SaveChanges();
+                                Hd.SaveChanges();
                                 string Mid = H.SocialSecuirtyNo.Substring(H.SocialSecuirtyNo.Length - 4).ToUpper() + MUniqueId;
                                 Manager m = new Manager();
                                 m.ManagerId = Mid;
@@ -90,7 +91,7 @@ namespace AirPortWebApi.Models.DataLayer
                                 m.AddressId = AId;
                                 m.Id = MUniqueId;
                                 Hd.Managers.Add(m);
-                                //Hd.SaveChanges();
+                                Hd.SaveChanges();
                                 h.ManagerId = Mid;
                                 h.HangerId = Hid;
                                 h.HangerLocation = H.HangerLocation;
@@ -115,7 +116,7 @@ namespace AirPortWebApi.Models.DataLayer
                                 m.AddressId = AddressId.AddressId;
                                 m.Id = MUniqueId;
                                 Hd.Managers.Add(m);
-                                //Hd.SaveChanges();
+                                Hd.SaveChanges();
                                 h.ManagerId = Mid;
                                 h.HangerId = Hid;
                                 h.HangerLocation = H.HangerLocation;
@@ -175,7 +176,72 @@ namespace AirPortWebApi.Models.DataLayer
                 }
                 else
                 {
-                    return "1,Unable to add Hanger";
+                    return "Unable to add Hanger";
+                }
+            }
+            catch (DbEntityValidationException d)
+            {
+                string s = "";
+                foreach (var eve in d.EntityValidationErrors)
+                {
+
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        s = ("1,Error on- Property: \"{0}\"",
+                             ve.PropertyName) + " " + s;
+                    }
+                }
+                return s;
+            }
+            catch (AggregateException a)
+            {
+                return "1,try again later";
+            }
+            catch (Exception E)
+            {
+                return "1,Unknown error occured please try again later";
+            }
+        }
+
+        public List<GetAvailableHangarsDetails1_Result> GetHangers(DateTime fromdate, DateTime todate)
+        {
+            AirportManagementEntities1 Ae = new AirportManagementEntities1();
+            return Ae.GetAvailableHangarsDetails1(fromdate, todate).ToList();
+        }
+
+        public List<GetAvailablePlanes_Result> GetAvailabePlanes(DateTime fromdate, DateTime todate)
+        {
+            AirportManagementEntities1 Ae = new AirportManagementEntities1();
+            return Ae.GetAvailablePlanes(fromdate, todate).ToList();
+
+        }
+        public string AddBooking(Booking b)
+        {
+            try
+            {
+                AirportManagementEntities1 Ae = new AirportManagementEntities1();
+                Ae.Bookings.Add(b);
+                Ae.SaveChanges();
+                return $"0,Booking added from {b.FromDate} to {b.ToDate} for plane {b.PlaneId} in hanger {b.HangerId}";
+            }
+            catch (DbUpdateException d)
+            {
+                SqlException s = d.GetBaseException() as SqlException;
+                if (s.Message.Contains("PK_Bookings"))
+                {
+                    return "1,Invalid BookingId";
+                }
+                else if (s.Message.Contains("FK_Bookings_HangerDetails"))
+                {
+                    return "1,Invalid Hanger";
+                }
+                else if (s.Message.Contains("FK_Bookings_Planes"))
+                {
+                    return "1,Invalid Plane";
+                }
+                else
+                {
+                    return "Unable to Book Hanger";
                 }
             }
             catch (DbEntityValidationException d)

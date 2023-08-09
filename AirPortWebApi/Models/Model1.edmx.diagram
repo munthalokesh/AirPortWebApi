@@ -14,6 +14,12 @@
         <AssociationConnector Association="AirportManagementModel.FK_HangerDetails_Manager" />
         <EntityTypeShape EntityType="AirportManagementModel.Booking" Width="1.5" PointX="7.5" PointY="5.75" />
         <AssociationConnector Association="AirportManagementModel.FK_Bookings_Bookings" />
+        <EntityTypeShape EntityType="AirportManagementModel.Owner" Width="1.5" PointX="3" PointY="9.875" />
+        <EntityTypeShape EntityType="AirportManagementModel.Plane" Width="1.5" PointX="5.25" PointY="9.5" />
+        <AssociationConnector Association="AirportManagementModel.FK_Owner_Address" />
+        <AssociationConnector Association="AirportManagementModel.FK_Planes_Owner" />
+        <EntityTypeShape EntityType="AirportManagementModel.Login" Width="1.5" PointX="5.375" PointY="0.75" />
+        <AssociationConnector Association="AirportManagementModel.FK_Bookings_Planes" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -170,7 +170,9 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HangerDetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PilotController.cs" />
+    <Compile Include="Controllers\PlanesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -183,11 +185,24 @@
     </Compile>
     <Compile Include="Models\DataLayer\AddressDbOPerations.cs" />
     <Compile Include="Models\DataLayer\HangerDetailsDbOperations.cs" />
+    <Compile Include="Models\DataLayer\LoginDbOperations.cs" />
     <Compile Include="Models\DataLayer\PilotDbOperations.cs" />
+    <Compile Include="Models\DataLayer\PlanesDbOperations.cs" />
+    <Compile Include="Models\Entities\AddressToClient.cs" />
     <Compile Include="Models\Entities\BookHanger.cs" />
     <Compile Include="Models\Entities\Hanger.cs" />
     <Compile Include="Models\Entities\PilotCls.cs" />
+    <Compile Include="Models\Entities\PlaneDetails.cs" />
+    <Compile Include="Models\GetAvailableHangarsDetails1_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetAvailablePlanes_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\HangerDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Login.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Manager.cs">
@@ -208,7 +223,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Owner.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Pilot.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Plane.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

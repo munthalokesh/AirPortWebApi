@@ -12,15 +12,10 @@ namespace AirPortWebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Booking
+    public partial class Login
     {
-        public int BookingId { get; set; }
-        public string HangerId { get; set; }
-        public System.DateTime FromDate { get; set; }
-        public Nullable<System.DateTime> ToDate { get; set; }
-        public string PlaneId { get; set; }
-    
-        public virtual HangerDetail HangerDetail { get; set; }
-        public virtual Plane Plane { get; set; }
+        public string Email { get; set; }
+        public string password { get; set; }
+        public string type { get; set; }
     }
 }

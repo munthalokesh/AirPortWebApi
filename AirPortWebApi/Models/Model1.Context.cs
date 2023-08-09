@@ -12,6 +12,8 @@ namespace AirPortWebApi.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class AirportManagementEntities1 : DbContext
     {
@@ -30,5 +32,47 @@ namespace AirPortWebApi.Models
         public virtual DbSet<HangerDetail> HangerDetails { get; set; }
         public virtual DbSet<Manager> Managers { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
+        public virtual DbSet<Owner> Owners { get; set; }
+        public virtual DbSet<Plane> Planes { get; set; }
+        public virtual DbSet<Login> Logins { get; set; }
+    
+        public virtual int GetAvailableHangarsDetails(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetAvailableHangarsDetails", fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<GetAvailablePlanes_Result> GetAvailablePlanes(Nullable<System.DateTime> selectedFromDate, Nullable<System.DateTime> selectedToDate)
+        {
+            var selectedFromDateParameter = selectedFromDate.HasValue ?
+                new ObjectParameter("SelectedFromDate", selectedFromDate) :
+                new ObjectParameter("SelectedFromDate", typeof(System.DateTime));
+    
+            var selectedToDateParameter = selectedToDate.HasValue ?
+                new ObjectParameter("SelectedToDate", selectedToDate) :
+                new ObjectParameter("SelectedToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAvailablePlanes_Result>("GetAvailablePlanes", selectedFromDateParameter, selectedToDateParameter);
+        }
+    
+        public virtual ObjectResult<GetAvailableHangarsDetails1_Result> GetAvailableHangarsDetails1(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAvailableHangarsDetails1_Result>("GetAvailableHangarsDetails1", fromDateParameter, toDateParameter);
+        }
     }
 }

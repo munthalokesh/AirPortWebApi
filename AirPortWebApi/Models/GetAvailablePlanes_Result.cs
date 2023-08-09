@@ -10,17 +10,16 @@
 namespace AirPortWebApi.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Booking
+    public partial class GetAvailablePlanes_Result
     {
-        public int BookingId { get; set; }
-        public string HangerId { get; set; }
-        public System.DateTime FromDate { get; set; }
-        public Nullable<System.DateTime> ToDate { get; set; }
         public string PlaneId { get; set; }
-    
-        public virtual HangerDetail HangerDetail { get; set; }
-        public virtual Plane Plane { get; set; }
+        public string ManufacturerName { get; set; }
+        public string RegNo { get; set; }
+        public string ModelNo { get; set; }
+        public string PlaneName { get; set; }
+        public Nullable<int> Capacity { get; set; }
+        public Nullable<int> OwnerId { get; set; }
+        public Nullable<int> Id { get; set; }
     }
 }

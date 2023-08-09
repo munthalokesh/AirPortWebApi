@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
 namespace AirPortWebApi.Controllers
 {
     [EnableCors("*","*","*")]
-    public class PilotController : ApiController
+    public class PlanesController : ApiController
     {
         // GET api/<controller>
         public IEnumerable<string> Get()
@@ -20,20 +21,29 @@ namespace AirPortWebApi.Controllers
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        [Route("api/Planes/GetAddress")]
+        public IHttpActionResult Get(string email)
         {
-            return "value";
+            AddressToClient a = PlanesDbOperations.GetAddress(email);
+            if (a != null)
+            {
+                return Ok(a);
+            }
+            else
+            {
+                return Content<AddressToClient>(HttpStatusCode.BadRequest, null);
+            }
         }
 
         // POST api/<controller>
         [HttpPost]
-        [Route("api/Pilot/AddPilot")]
-        public IHttpActionResult AddPilot([FromBody] PilotCls p)
+        [Route("api/Planes/AddPlane")]
+        public IHttpActionResult AddPlane([FromBody] PlaneDetails p)
         {
-            PilotDbOperations pd = new PilotDbOperations();
-            string s = pd.AddingPilot(p);
+            PlanesDbOperations dB = new PlanesDbOperations();
+            string s = dB.AddPlane(p);
             List<string> list = s.Split(',').ToList();
-            if (list[0].Equals("0"))
+            if (list[0] == "0")
             {
                 return Ok(list[1]);
             }
