@@ -267,5 +267,38 @@ namespace AirPortWebApi.Models.DataLayer
                 return "1,Unknown error occured please try again later";
             }
         }
+        public List<HangerInfo> GetAllHangers()
+        {
+
+
+            AirportManagementEntities1 Ae = new AirportManagementEntities1();
+            List<HangerInfo> selectedHangers = Ae.HangerDetails.Select(h => new HangerInfo
+            {
+                HangerId = h.HangerId,
+                HangerLocation = h.HangerLocation,
+                HangerCapacity = (int)h.HangerCapacity
+            }).ToList();
+
+            return selectedHangers;
+        }
+
+        public List<BookingInfo> GetStatus(string HangerId, DateTime fromdate, DateTime todate)
+        {
+            AirportManagementEntities1 Ae = new AirportManagementEntities1();
+            var bookingInfoList = Ae.Bookings
+                .Where(booking => booking.FromDate <= todate && fromdate <= booking.ToDate && booking.HangerId == HangerId) // Example condition
+                .Select(booking => new BookingInfo
+                {
+                    HangerId = booking.HangerId,
+                    HangerLocation = booking.HangerDetail.HangerLocation,
+                    HangerCapacity = booking.HangerDetail.HangerCapacity,
+                    PlaneId = booking.PlaneId,
+                    FromDate = booking.FromDate,
+                    ToDate = booking.ToDate
+                })
+                .ToList();
+
+            return bookingInfoList;
+        }
     }
 }

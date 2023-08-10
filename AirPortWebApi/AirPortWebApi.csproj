@@ -190,7 +190,9 @@
     <Compile Include="Models\DataLayer\PlanesDbOperations.cs" />
     <Compile Include="Models\Entities\AddressToClient.cs" />
     <Compile Include="Models\Entities\BookHanger.cs" />
+    <Compile Include="Models\Entities\BookingInfo.cs" />
     <Compile Include="Models\Entities\Hanger.cs" />
+    <Compile Include="Models\Entities\HangerInfo.cs" />
     <Compile Include="Models\Entities\PilotCls.cs" />
     <Compile Include="Models\Entities\PlaneDetails.cs" />
     <Compile Include="Models\GetAvailableHangarsDetails1_Result.cs">
