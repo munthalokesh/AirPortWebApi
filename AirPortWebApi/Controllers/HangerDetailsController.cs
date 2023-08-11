@@ -28,7 +28,7 @@ namespace AirPortWebApi.Controllers
             //DateTime fromDateFormatted = DateTime.ParseExact(fromdate.ToString(),"dd-MM-yyyy", CultureInfo.InvariantCulture);
             //DateTime toDateFormatted = DateTime.ParseExact(todate.ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
             List<GetAvailableHangarsDetails1_Result> l = db.GetHangers(fromdate, todate);
-            if (l != null || l.Count >= 0)
+            if (l != null || l.Count > 0)
             {
                 return Ok(l);
             }
@@ -76,7 +76,7 @@ namespace AirPortWebApi.Controllers
         {
             HangerDetailsDbOperations hd = new HangerDetailsDbOperations();
             List<GetAvailablePlanes_Result> l = hd.GetAvailabePlanes(fromdate, todate);
-            if (l != null || l.Count >= 0)
+            if (l != null || l.Count > 0)
             { return Ok(l); }
             else
             {

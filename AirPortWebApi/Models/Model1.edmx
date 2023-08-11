@@ -22,7 +22,7 @@
           <Key>
             <PropertyRef Name="BookingId" />
           </Key>
-          <Property Name="BookingId" Type="int" Nullable="false" />
+          <Property Name="BookingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="HangerId" Type="nvarchar" MaxLength="50" />
           <Property Name="FromDate" Type="date" Nullable="false" />
           <Property Name="ToDate" Type="date" />
