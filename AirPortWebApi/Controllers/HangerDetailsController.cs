@@ -3,6 +3,7 @@ using AirPortWebApi.Models.DataLayer;
 using AirPortWebApi.Models.Entities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -72,10 +73,17 @@ namespace AirPortWebApi.Controllers
         [HttpGet]
         [Route("api/HangerDetails/GetAvailablePlanes")]
 
-        public IHttpActionResult GetPlanes(DateTime fromdate, DateTime todate)
+        public IHttpActionResult GetPlanes(string fromdate, string todate)
         {
             HangerDetailsDbOperations hd = new HangerDetailsDbOperations();
-            List<GetAvailablePlanes_Result> l = hd.GetAvailabePlanes(fromdate, todate);
+            DateTime FD = DateTime.ParseExact(fromdate, "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
+            DateTime TD = DateTime.ParseExact(todate, "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
+
+            string formattedFromDate = FD.ToString("yyyy-MM-dd");
+            DateTime parsedFromDate = DateTime.ParseExact(formattedFromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            string formattedToDate = TD.ToString("yyyy-MM-dd");
+            DateTime parsedToDate = DateTime.ParseExact(formattedToDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            List<GetAvailablePlanes_Result> l = hd.GetAvailabePlanes(parsedFromDate, parsedToDate);
             if (l != null || l.Count > 0)
             { return Ok(l); }
             else
