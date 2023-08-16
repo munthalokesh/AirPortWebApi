@@ -13,6 +13,8 @@ namespace AirPortWebApi.Models.Entities
         public string Country { get; set; }
         public string PinNo { get; set; }
         public Nullable<int> Id { get; set; }
+
+        public string OwnerName { get; set; }
         public string AddressLine { get; set; }
     }
 }

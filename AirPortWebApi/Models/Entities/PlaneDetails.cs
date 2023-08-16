@@ -9,6 +9,7 @@ namespace AirPortWebApi.Models.Entities
     {
         public string ManufacturerName { get; set; }
         public string RegistrationNo { get; set; }
+        public string OwnerName { get; set; }
         public string ModelNo { get; set; }
         public string PlaneName { get; set; }
         public int Capacity { get; set; }

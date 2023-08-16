@@ -223,8 +223,8 @@ namespace AirPortWebApi.Models.DataLayer
                 int bookingCount = Ae.Bookings
                     .Where(x =>
                         x.HangerId == b.HangerId &&
-                        x.FromDate >= b.FromDate &&
-                        x.ToDate <= b.ToDate)
+                        b.FromDate<=x.ToDate &&
+                        b.ToDate>=x.FromDate)
                     .Count();
                 int capacity =(int) Ae.HangerDetails.FirstOrDefault(x => x.HangerId == b.HangerId).HangerCapacity;
                 if(capacity>bookingCount)

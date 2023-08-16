@@ -67,6 +67,7 @@
           <Property Name="OwnerId" Type="int" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="AddressId" Type="nvarchar" MaxLength="50" />
+          <Property Name="OwnerName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Pilot">
           <Key>
@@ -413,6 +414,7 @@
           <Property Name="AddressId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Address" Relationship="AirportManagementModel.FK_Owner_Address" FromRole="Owner" ToRole="Address" />
           <NavigationProperty Name="Planes" Relationship="AirportManagementModel.FK_Planes_Owner" FromRole="Owner" ToRole="Plane" />
+          <Property Name="OwnerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Plane">
           <Key>
@@ -566,6 +568,7 @@
           <EntitySetMapping Name="Owners">
             <EntityTypeMapping TypeName="AirportManagementModel.Owner">
               <MappingFragment StoreEntitySet="Owner">
+                <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />

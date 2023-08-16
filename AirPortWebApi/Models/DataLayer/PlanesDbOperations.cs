@@ -31,6 +31,7 @@ namespace AirPortWebApi.Models.DataLayer
                 a.AddressLine = details.AddressLine;
                 a.Id = details.Id;
                 a.PinNo = details.PinNo;
+                a.OwnerName=address.OwnerName;
                 return a;
             }
         }
@@ -97,6 +98,7 @@ namespace AirPortWebApi.Models.DataLayer
                             Owner o = new Owner();
                             o.AddressId = Address_id;
                             o.Email = p.Email;
+                            o.OwnerName = p.OwnerName;
                             o.OwnerId = OwnerId;
                             context.Owners.Add(o);
                             Plane plane = new Plane();
@@ -118,6 +120,7 @@ namespace AirPortWebApi.Models.DataLayer
                             Owner o = new Owner();
                             o.AddressId = Isaddress.AddressId;
                             o.Email = p.Email;
+                            o.OwnerName = p.OwnerName;
                             o.OwnerId = OwnerId;
                             context.Owners.Add(o);
                             Plane plane = new Plane();

@@ -23,6 +23,7 @@ namespace AirPortWebApi.Models
         public int OwnerId { get; set; }
         public string Email { get; set; }
         public string AddressId { get; set; }
+        public string OwnerName { get; set; }
     
         public virtual Address Address { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
